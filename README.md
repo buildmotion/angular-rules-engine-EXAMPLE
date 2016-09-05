@@ -5,17 +5,25 @@ Prerequisites:
 + Angular CLI
 + NodeJS/NPM
 
-1. Create a new Angular 2 application using the Angular 2 CLI. Use the `ng init` command to create the source in an existing folder.
+###Create New Angular 2 Application
+
+Create a new Angular 2 application using the Angular 2 CLI. Use the `ng init` command to create the source in an existing folder.
+
 ```txt
     ng init
 ```
-2. Run: `npm install angular-rules-engine`
+
+###Install angular-rules-engine
+
+Use npm to install the package. The installation process will also add any required dependencies to your project. 
 
 ```txt
 npm install angular-rules-engine
 ```
+###Update package.json File
 
-3. Update the `dependencies` section of the package.json file to include "angular-rules-engine".
+Update the `dependencies` section of the package.json file to include `angular-rules-engine`.
+
 ```js
 {
   "name": "angular-rules-engine-example",
@@ -65,7 +73,9 @@ npm install angular-rules-engine
 }
 ```
 
-4. Update the "angular-build-cli.js" file to include the angular-rules-engine files.
+###angular-build-cli.js
+
+Update the "angular-build-cli.js" file to include the angular-rules-engine files.
         
     Note: Make sure you add the [ts] extension on the mapping for the `vendorNpmFiles` list.
 
@@ -86,4 +96,44 @@ module.exports = function(defaults) {
     ]
   });
 };
+```
+
+###system-config.js :: Mapping and Package Configuration
+Add an entry to the map section. This will map the `angular-rules-engine` folder to the relative path. In our example below, all of the scripts will be available in using the url: `www.mysite.com/vendor/angular-rules-engine`. 
+
+The rule engine contains (4) folders that contain the source of the rule engine:
+
++ action: The action folder contains a business action framework to isolate and execute business logic in specific units called `Actions`. 
++ rules: The `rules` folder contains the JavaScript classes to create custom rules. This folder also contains a set of implemented rules.
++ service: The `service` folder contains a set of helper classes to manage a single service request with services messages. The content of the messages would typically be supplied by the results of the rules and the business actions. 
++ validation: The `validation` folder contains the `ValidationContext` and infrastructure to manage the execution of business rules.
+
+```js   
+        /** Map relative paths to URLs. */
+        var map = {
+            'angular-rules-engine': 'vendor/angular-rules-engine'
+        };
+        /** User packages configuration. */
+        var packages = {
+            'angular-rules-engine/action': {
+                format: 'cjs',
+                defaultExtension: 'js',
+                main: 'index.js'
+            },
+            'angular-rules-engine/rules': {
+                format: 'cjs',
+                defaultExtension: 'js',
+                main: 'index.js'
+            },
+            'angular-rules-engine/service': {
+                format: 'cjs',
+                defaultExtension: 'js',
+                main: 'index.js'
+            },
+            'angular-rules-engine/validation': {
+                format: 'cjs',
+                defaultExtension: 'js',
+                main: 'index.js'
+            }
+        };
 ```
