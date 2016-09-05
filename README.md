@@ -66,6 +66,8 @@ npm install angular-rules-engine
 ```
 
 4. Update the "angular-build-cli.js" file to include the angular-rules-engine files.
+        
+    Note: Make sure you add the [ts] extension on the mapping for the `vendorNpmFiles` list.
 
 ```js
 var Angular2App = require('angular-cli/lib/broccoli/angular2-app');
@@ -80,10 +82,7 @@ module.exports = function(defaults) {
       'reflect-metadata/**/*.+(ts|js|js.map)',
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
-      'angular-rules-engine/action/*.+(js|js.map)',
-      'angular-rules-engine/rules/*.+(js|js.map)',
-      'angular-rules-engine/service/*.+(js|js.map)',
-      'angular-rules-engine/validation/*.+(js|js.map)'
+      'angular-rules-engine/**/*.+(ts|js|js.map)'
     ]
   });
 };
