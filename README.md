@@ -103,8 +103,8 @@ Add an entry to the map section. This will map the `angular-rules-engine` folder
 
 The rule engine contains (4) folders that contain the source of the rule engine:
 
-+ action: The action folder contains a business action framework to isolate and execute business logic in specific units called `Actions`. 
-+ rules: The `rules` folder contains the JavaScript classes to create custom rules. This folder also contains a set of implemented rules.
++ action: The action folder contains a business action framework to isolate and execute business logic in specific units called `Actions`. If you are familiar with the pipeline operations of the [`@Component`](https://angular.io/docs/ts/latest/api/core/index/Component-decorator.html) model in Angular 2, the Action class also has a pipeline of operations. These operations execute pre/post in relation to the actually business logic implemented in your concrete action. One of the operations executes the rules contained in the `ValidationContext`, if there are any rule violations the business logic in the `Action` is not executed. 
++ rules: The `rules` folder contains the Typecript classes to create custom rules. This folder also contains a set of implemented rules.
 + service: The `service` folder contains a set of helper classes to manage a single service request with services messages. The content of the messages would typically be supplied by the results of the rules and the business actions. 
 + validation: The `validation` folder contains the `ValidationContext` and infrastructure to manage the execution of business rules.
 
