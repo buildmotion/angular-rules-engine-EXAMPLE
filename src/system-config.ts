@@ -9,7 +9,8 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-  'angular-rules-engine': 'vendor/angular-rules-engine'
+  'angular-rules-engine': 'vendor/angular-rules-engine',
+  'typescript-dotnet-commonjs': 'vendor/typescript-dotnet-commonjs'
 };
 
 /** User packages configuration. */
@@ -33,6 +34,10 @@ const packages: any = {
     format: 'cjs',
     defaultExtension: 'js',
     main: 'index.js'
+  },
+  'typescript-dotnet-commonjs/System': {
+    format: 'cjs',
+    defaultExtension: 'js'
   }
 };
 
