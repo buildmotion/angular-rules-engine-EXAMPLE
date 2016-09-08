@@ -53,7 +53,7 @@ Update the `dependencies` section of the package.json file to include `angular-r
     "rxjs": "5.0.0-beta.6",
     "systemjs": "0.19.26",
     "zone.js": "0.6.12",
-    "angular-rules-engine": "0.0.5"
+    "angular-rules-engine": "0.0.7"
   },
   "devDependencies": {
     "angular-cli": "1.0.0-beta.10",
@@ -68,14 +68,17 @@ Update the `dependencies` section of the package.json file to include `angular-r
     "ts-node": "0.5.5",
     "tslint": "3.11.0",
     "typescript": "1.8.10",
-    "typings": "1.3.1"
+    "typings": "1.3.1",
+    "typescript-dotnet-commonjs": "3.2.4"
   }
 }
+
 ```
 
 ###angular-build-cli.js
-
-Update the "angular-build-cli.js" file to include the angular-rules-engine files.
+Update the "angular-build-cli.js" file to include the following entries:
++ angular-rules-engine
++ typescript-dotnet-commonjs
         
     Note: Make sure you add the [ts] extension on the mapping for the `vendorNpmFiles` list.
 
@@ -92,7 +95,8 @@ module.exports = function(defaults) {
       'reflect-metadata/**/*.+(ts|js|js.map)',
       'rxjs/**/*.+(js|js.map)',
       '@angular/**/*.+(js|js.map)',
-      'angular-rules-engine/**/*.+(ts|js|js.map)'
+      'angular-rules-engine/**/*.+(ts|js|js.map)',
+      'typescript-dotnet-commonjs/System/*.+(ts|js|js.map)'
     ]
   });
 };
@@ -110,8 +114,9 @@ The rule engine contains (4) folders that contain the source of the rule engine:
 
 ```js   
         /** Map relative paths to URLs. */
-        var map = {
-            'angular-rules-engine': 'vendor/angular-rules-engine'
+        const map: any = {
+          'angular-rules-engine': 'vendor/angular-rules-engine',
+          'typescript-dotnet-commonjs': 'vendor/typescript-dotnet-commonjs'
         };
         /** User packages configuration. */
         var packages = {
