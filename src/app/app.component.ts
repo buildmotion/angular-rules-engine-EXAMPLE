@@ -46,6 +46,7 @@ export class AppComponent {
             );
 
             // show the error messages from the service context;
+            console.log(`Preparing to write out the errors. Error count is ${this.doService.serviceContext.ErrorMessages.length}`)
             this.doService.serviceContext.ErrorMessages.filter(f => f.DisplayToUser)
                 .forEach(e => console.log(e.toString()));
         }

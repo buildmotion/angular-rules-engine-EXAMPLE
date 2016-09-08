@@ -47,6 +47,8 @@ export class ActionBase extends Action{
         console.log('Running the [postValidateAction');
         if(this._validationContext.hasRuleViolations()){
             this._validationContext.rules.forEach(rule => {
+                // Only display rules that are tagged as [displayable] and failed evaluation.
+                if(rule.isDisplayable && rule.isValid === false)
                 this.serviceContext.addMessage(new ServiceMessage(rule.name)
                     .WithMessage(rule.message)
                     .WithDisplayToUser(rule.isDisplayable)

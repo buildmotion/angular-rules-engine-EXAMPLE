@@ -38,13 +38,27 @@ export class DoSomethingAction extends ActionBase {
         // add some rules to validate the action;
         console.log(`Running the [preValidateAction] for the ${this.actionName} action.`);
 
+        // create a rule programatically
+        let fiveIsWithinRange = new rules.Range('5IsWithinRangeofOneAndTen', '', 5, 1, 10);
+        fiveIsWithinRange.isDisplayable = true;
+
+        // add rules using fluent api [.addRule] --> the following rules should all be [truthy];
         this._validationContext
             .withSource(this.actionName)
-            // .addRule(new rules.AreEqual('ThingsAreEqual', 'The things are not equal.', 'this', 'that', false))
-            // .addRule(new rules.IsTrue('ThisIsTrue', 'This is not true', this.isDone, true))
-            // .addRule(new rules.IsTrue('Really?', 'Is it really true?', false))
+            .addRule(new rules.AreEqual('ThingsAreEqual', 'The things are equal.', 'this', 'this', false))
+            .addRule(new rules.IsFalse('Really?', 'Is it really true?', false, true))
+            .addRule(new rules.IsNotNullOrUndefined('ItIsNotUndefined', 'The item is undefined.', 'real thing', true))
+            .addRule(new rules.IsNullOrUndefined('ItIsUndefined', 'The item is real, should be undefined.', undefined, true)) 
+            .addRule(new rules.IsTrue('ThisIsTrue', 'This is not true', true, true))
+            .addRule(new rules.Max('FiveIsMax', 'The max value must be 5 or less.', 5, 5, true))
+            .addRule(new rules.Max('FiveIsMax', 'The max value must be 5 or less.', 4, 5, true))
+            .addRule(new rules.Min('FiveIsMin', 'The min value must be 5 or greater.', 5, 5, true))
+            .addRule(new rules.Min('FiveIsMin', 'The min value must be 5 or greater.', 6, 5, true))
+            .addRule(fiveIsWithinRange)
             .addRule(new rules.StringIsNotNullEmptyRange('WhatIsGood', 'The string is not valid.', "hey...", 3, 10, true))
-            //.addRule(new ThingIsValidRule('ThingIsGood', 'The specified thing is not valid.', this.thing, true));
+            .addRule(new ThingIsValidRule('ThingIsGood', 'The specified thing is not valid.', this.thing, true));
+        
+        
     }
 
     /**
