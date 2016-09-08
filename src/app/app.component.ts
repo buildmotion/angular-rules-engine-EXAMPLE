@@ -5,6 +5,7 @@ import { DoHttpService } from './services/index';
 import { ServiceContext } from 'angular-rules-engine/service/index';
 import { ServiceMessage } from 'angular-rules-engine/service/index';
 import { MessageType } from 'angular-rules-engine/service/index';
+import { Thing } from './shared/models/index';
 
 @Component({
     moduleId: module.id,
@@ -14,16 +15,27 @@ import { MessageType } from 'angular-rules-engine/service/index';
     styleUrls: ['app.component.css']
 })
 export class AppComponent {
-    title = 'app works!';
-    result: boolean;
+    title = 'app works: ';
+    result: Thing;
+    hasSomething: boolean = false;
 
+/**
+ * 
+ */
     constructor(
         private businessProvider: BusinessProvider,
         private doService: DoService) {
 
-        this.result = this.doService.doSomething('amazing!');
+        // 1. make a service call to do something amazing; 
+        let something = new Thing();
+        something.name = 'build something amazing';
+        something.description = 'The close and thoughtful observer more and more learns to recognize his limitations. He realizes that with the steady growth of knowledge more and more new problems keep on emerging.';
+        this.result = this.doService.doSomething(something);
+
+        // 2. check the results of the service call;
         if (this.doService.serviceContext.isGood()) {
             console.log(`Result: ${this.result} from the doService.`);
+            this.hasSomething = true;//flips the bit to display the thing;
         } else {
             // programmatically add a new service message;
             this.doService.serviceContext.addMessage(
@@ -33,7 +45,7 @@ export class AppComponent {
                     .WithSource('app.component')
             );
 
-            // show the error messages
+            // show the error messages from the service context;
             this.doService.serviceContext.ErrorMessages.filter(f => f.DisplayToUser)
                 .forEach(e => console.log(e.toString()));
         }

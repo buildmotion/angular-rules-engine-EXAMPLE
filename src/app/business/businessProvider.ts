@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ServiceContext } from 'angular-rules-engine/service/index';
 import { DoSomethingAction } from './Index';
 import { DoHttpService } from './../services/index';
+import { Thing } from './../shared/models/Index';
 
 @Injectable()
 export class BusinessProvider {
@@ -21,7 +22,7 @@ export class BusinessProvider {
      * implement the business logic...
      * @param what
      */
-    doSomething(what: string): boolean {
+    doSomething(what: Thing): Thing {
         console.log('Running the [doSomething] method of the BusinessProvider.');
 
         // 1. initialize an action;
@@ -31,6 +32,6 @@ export class BusinessProvider {
         action.Do(this);
 
         // 3. return action output;
-        return action.isDone;
+        return action.thing;
     }
 }

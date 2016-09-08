@@ -45,7 +45,7 @@ export class ActionBase extends Action{
      */
     postValidateAction(){
         console.log('Running the [postValidateAction');
-        if(this._validationContext.hasRuleViolations){
+        if(this._validationContext.hasRuleViolations()){
             this._validationContext.rules.forEach(rule => {
                 this.serviceContext.addMessage(new ServiceMessage(rule.name)
                     .WithMessage(rule.message)

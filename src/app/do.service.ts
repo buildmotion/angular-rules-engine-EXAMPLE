@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BusinessProvider } from './business/index';
 import { ServiceContext } from 'angular-rules-engine/service/index';
+import { Thing} from './shared/models/thing';
 
 @Injectable()
 export class DoService {
@@ -24,8 +25,8 @@ export class DoService {
      * signature of the method. 
      * @param what
      */
-    doSomething(what: string): boolean {
+    doSomething(thing: Thing): Thing {
         console.log(`Running the [doSomething] method of the ${this.serviceName}.`);
-        return this.businessProvider.doSomething(what);
+        return this.businessProvider.doSomething(thing);
     }
 }

@@ -1,6 +1,10 @@
 import { ActionBase } from './../Index';
 import { ActionResult } from 'angular-rules-engine/action/Index';
 import rules = require('angular-rules-engine/rules/rules');
+import { Thing } from './../../shared/models/thing';
+import { ServiceMessage } from 'angular-rules-engine/service/Index';
+import { MessageType } from 'angular-rules-engine/service/Index';
+import { ThingIsValidRule } from './../../shared/rules/thingIsValidRule';
 
 /**
  * This is a sample action that can be used to implement business logic. Limit the
@@ -10,17 +14,17 @@ import rules = require('angular-rules-engine/rules/rules');
  */
 export class DoSomethingAction extends ActionBase {
     actionName: string = 'DoSomethingAction';
-    what: string;
     isDone: boolean;
+    thing: Thing;
 
     /**
      * Use the constructor of the [Action] to provide required elements to
      * execute the action.
      * @param what
      */
-    constructor(what: string) {
+    constructor(what: Thing) {
         super();
-        this.what = what;
+        this.thing = what;
         console.log(`Running the [${this.actionName}] constructor.`);
     }
 
@@ -32,14 +36,15 @@ export class DoSomethingAction extends ActionBase {
      */
     preValidateAction() {
         // add some rules to validate the action;
-        console.log('Running the [preValidateAction] for the action: ' + this.what);
+        console.log(`Running the [preValidateAction] for the ${this.actionName} action.`);
 
         this._validationContext
             .withSource(this.actionName)
-            .addRule(new rules.AreEqual('ThingsAreEqual', 'The things are not equal.', 'this', 'that', false))
-            .addRule(new rules.IsTrue('ThisIsTrue', 'This is not true', this.isDone, true))
-            .addRule(new rules.IsTrue('Really?', 'Is it really true?', false))
-            .addRule(new rules.StringIsNotNullEmptyRange('StringIsGood', 'The string is not valid.', 'Hi', 3, 10));
+            // .addRule(new rules.AreEqual('ThingsAreEqual', 'The things are not equal.', 'this', 'that', false))
+            // .addRule(new rules.IsTrue('ThisIsTrue', 'This is not true', this.isDone, true))
+            // .addRule(new rules.IsTrue('Really?', 'Is it really true?', false))
+            .addRule(new rules.StringIsNotNullEmptyRange('WhatIsGood', 'The string is not valid.', "hey...", 3, 10, true))
+            //.addRule(new ThingIsValidRule('ThingIsGood', 'The specified thing is not valid.', this.thing, true));
     }
 
     /**
@@ -48,10 +53,25 @@ export class DoSomethingAction extends ActionBase {
      */
     performAction() {
         console.log(`Running the [performAction] for the ${this.actionName}.`);
-        console.log(`Working on ${this.what} for the ${this.actionName}.`);
-        this.businessProvider.doHttpService.saveSomething(1);
-
+        this.businessProvider.doHttpService.saveSomething(this.thing).subscribe(
+          value => this.thing = value,
+          error => this.handleThingError(error),
+          () => console.log('always do something here, right?')
+      );
         this.isDone = true;
+    }
+
+    /**
+     * Use this helper function to handle any errors during the request to save something.
+     */
+    private handleThingError(error: Error){
+        // create a new message using the fluent api syntax;
+        let message = new ServiceMessage(error.name, error.message)
+        .WithDisplayToUser(true)
+        .WithMessageType(MessageType.Error)
+        .WithSource(this.actionName);
+
+        this.serviceContext.addMessage(message);
     }
 
     /**
@@ -59,7 +79,7 @@ export class DoSomethingAction extends ActionBase {
      */
     validateActionResult():ActionResult {
         console.log('Running validateActionResult from action...now return an ActionResult');
-        if (this._validationContext.hasRuleViolations) {
+        if (this._validationContext.hasRuleViolations()) {
             console.log('There are some rule violations here.');
         }
 
