@@ -13,7 +13,7 @@ export class DoHttpService {
   public saveSomething(thing: Thing){
     this.data = new Observable<Thing>(observer => {
      setTimeout(() => {
-              observer.name = 'do: ' + thing;
+              observer.name = 'do: ' + thing.name;
               observer.isDone = true;
               observer.createDate = new Date();
           }, 1000);

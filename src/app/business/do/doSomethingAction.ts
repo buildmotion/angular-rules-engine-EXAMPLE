@@ -57,7 +57,7 @@ export class DoSomethingAction extends ActionBase {
             .addRule(fiveIsWithinRange)
             .addRule(new rules.StringIsNotNullEmptyRange('WhatIsGood', 'The string is not valid.', "hey...", 3, 10, true))
             .addRule(new ThingIsValidRule('ThingIsGood', 'The specified thing is not valid.', this.thing, true));
-        
+            // ... add as many more rules (custom) or default;
         
     }
 

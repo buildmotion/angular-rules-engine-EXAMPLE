@@ -25,9 +25,9 @@ export class ThingIsValidRule extends CompositeRule {
      * A helper method to configure/add rules to the validation context. 
      */
     configureRules() {
-        this.rules.push(new IsNotNullOrUndefined('StringIsNotNull', 'The string target is null or undefined.', this.target));
+        this.rules.push(new IsNotNullOrUndefined('ThingIsNotNullOrUndefined', 'The target is null or undefined.', this.target));
         if (this.target != null) {
-            // 1. validate the name;
+            // 1. validate the name, ...
             this.rules.push(new StringIsNotNullEmptyRange('ThingNameIsValid', 'The name of the thing is not valid.', this.target.name, 3, 42, true));
             this.rules.push(new StringIsNotNullEmptyRange('ThingDescriptionIsValid', 'The description of the thing is not valid.', this.target.description, 3, 42, true));
         }
